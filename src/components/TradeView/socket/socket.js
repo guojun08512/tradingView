@@ -1,5 +1,5 @@
 class socket {
-  constructor(url = 'ws://127.0.0.1:8001/heartbeat', options) {
+  constructor(url = 'ws://192.144.141.51:8001/heartbeat', options) {
     this.heartBeatTimer = null
     this.options = options
     this.messageMap = {}
