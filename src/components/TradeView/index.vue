@@ -6,7 +6,7 @@
           <Main></Main>
         </el-main>
         <el-footer>
-          <p>联系方式版权备案</p>
+          <p>联系方式(qq:xxxx, 微信:xxxx) 版权备案</p>
         </el-footer>
       </el-container>
       <!-- <el-table :data='infos' border style="width: 100%">
@@ -28,31 +28,6 @@ import socket from './socket/socket.js'
 export default {
   components: {
     Main
-  },
-  data() {
-    return {
-      socket: new socket(),
-      interval: null,
-      lastTime: null,
-      isLoading: true,
-      infos: [],
-      count: 0,
-      pageCount: 0,
-      curPage: 1,
-    }
-  },
-  created() {
-    this.socket.doOpen()
-    this.socket.on('message', this.onMessage)
-  },
-  methods: {
-    onMessage(data) {
-      if (data.cmd === 'data') {
-        console.log('data === ', JSON.parse(data.args))
-        const msg = JSON.parse(data.args)
-        this.infos.push(msg[0])
-      }
-    }
   }
 }
 </script>
