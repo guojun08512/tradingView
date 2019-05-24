@@ -16,3 +16,6 @@ export default {
   // }
 }
 </script>
+<style lang='stylus'>
+@import './assets/css/common.styl'
+</style>
