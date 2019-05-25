@@ -2,8 +2,8 @@
   <div class="table-modal">
     <div class="content">
       <el-table :data='infos' border style="width: 100%">
-        <el-table-column type='index' width='90' label="序号"></el-table-column>
-        <el-table-column width='90' label="合约名称">
+        <el-table-column width='90' label="序号" prop='id'></el-table-column>
+        <el-table-column width='90' label="名称" prop='name'>
           <template slot-scope="scope">
             {{ scope.row.name }}
           </template>
@@ -15,7 +15,7 @@
         </el-table-column>
         <el-table-column label="成交量" width='160'>
           <template slot-scope="scope">
-            {{ scope.row.dell }}
+            {{ scope.row.deal }}
           </template> 
         </el-table-column>
         <el-table-column label="涨幅">
@@ -41,7 +41,7 @@
         <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button
-                @click="handleHistory(scope.$index, scope.row)">查看历史</el-button>
+                @click="handleHistory(scope.$index, scope.row)">下载历史数据</el-button>
             </template>
           </el-table-column> 
       </el-table>
@@ -58,148 +58,79 @@ export default {
       lastTime: null,
       isLoading: true,
       infos: [
-        {
-          name: '上证指数'
-        },
-        // {
-        //   name: '深证成指'
-        // },
-        // {
-        //   name: '浦发银行'
-        // },
-        // {
-        //   name: '中国核建'
-        // },
-        // {
-        //   name: '航天信息'
-        // },
-        // {
-        //   name: '特锐德'
-        // },
-        // {
-        //   name: '万科A'
-        // },
-        // {
-        //   name: '国农科技'
-        // },
-        // {
-        //   name: 'PTA主力'
-        // },
-        // {
-        //   name: '铁矿主力'
-        // },
-        // {
-        //   name: '橡胶主力'
-        // },
-        // {
-        //   name: '沥青主力'
-        // },
-        // {
-        //   name: '螺纹主力'
-        // },
-        // {
-        //   name: '原油主力'
-        // },
-        // {
-        //   name: '沪金主力'
-        // },
-        // {
-        //   name: '伦敦金'
-        // },
-        // {
-        //   name: 'EUR/USD'
-        // },
-        // {
-        //   name: ' GBP/USD'
-        // },
-        // {
-        //   name: 'USD/JPY'
-        // },
-        // {
-        //   name: 'USD/AUD'
-        // },
-        // {
-        //   name: 'USD/CAD'
-        // },
-        // {
-        //   name: 'USD/CHF'
-        // },
-        // {
-        //   name: 'NZD/USD'
-        // },
-        // {
-        //   name: '离岸CNH'
-        // },
-        // {
-        //   name: '比特币'
-        // },
-        // {
-        //   name: ' 恒生指数'
-        // },
-        // {
-        //   name: ' 道指工业'
-        // },
-        // {
-        //   name: '纳斯达克'
-        // },
-        // {
-        //   name: '富时100'
-        // },
-        // {
-        //   name: '日经225'
-        // }
       ],
       count: 0,
       pageCount: 0,
-      curPage: 1
+      curPage: 1,
+      titleList: ["中国股市", "中国期货","国际外汇","数字货币","国际股市"],
+      createTitle: [] 
     }
+  },
+  mounted () {
+    this.$set(this.infos, 'e', 0)
+    // this.onMessage()
+    this.$api.get('http://192.144.141.51:8002/v1/stock/alldata').then(res => {
+      this.infos = res.data.data.data
+      this.$nextTick(() => {
+        this.fun()
+      })
+    })
   },
   created() {
     this.socket.doOpen()
     this.socket.on('message', this.onMessage)
     this.$nextTick(() => {
-      let tbody =  document.getElementsByTagName('tbody')[0]
-      var titleList = ["中国股市", "中国期货","国际外汇","数字货币","国际股市",]
-      for (var j = 0; j < tbody.getElementsByTagName('tr').length; j++) {
-        var div = document.createElement("div")
-        div.className = 'title'
-        if (j == 0) {
-          div.innerText = titleList[0]
-          tbody.getElementsByTagName('tr')[j].before(div)
-        }        
-        if (j == 7) {
-          div.innerText = titleList[0]
-          tbody.getElementsByTagName('tr')[j].after(div)
-        }
-        if (j == 14) {
-          div.innerText = titleList[1]
-          tbody.getElementsByTagName('tr')[j].after(div)
-        }
-        if (j == 23) {
-          div.innerText = titleList[2]
-          tbody.getElementsByTagName('tr')[j].after(div)
-        }
-        if (j == 24) {
-          div.innerText = titleList[3]
-          tbody.getElementsByTagName('tr')[j].after(div)
-        }
-      }
+      this.fun()
     })
   },
   methods: {
     onMessage(data) {
       if (data.cmd === 'data') {
-        console.log('data === ', JSON.parse(data.args))
+        // console.log('data === ', JSON.parse(data.args))
         const msg = JSON.parse(data.args)
-        const key = Object.keys(msg)[0]
-        if (key) {
-          this.infos[key - 1] = msg[key]
-        }
-        console.log(this.infos[0])
+        this.infos = msg
+        this.$nextTick(() => {
+          this.fun()
+        })
       }
     },
     handleHistory(index, row) {
       console.log('ttt', index, row)
+    },
+    fun(){
+      let tbody =  document.getElementsByTagName('tbody')[0]
+      var title = document.querySelectorAll('.title')
+      const titleList = this.titleList
+      for (var j = 0; j < tbody.getElementsByTagName('tr').length; j++) {
+        var div = document.createElement("div")
+        div.className = 'title'
+        console.log( title[0], titleList[0])
+        if (j == 0 && this.createTitle[0] !== titleList[0]) {
+          div.innerText = titleList[0]
+          tbody.getElementsByTagName('tr')[j].before(div)
+          this.createTitle[0] = titleList[0]
+        }
+        if (j == 7 && this.createTitle[1] !== titleList[1]) {
+          div.innerText = titleList[1]
+          tbody.getElementsByTagName('tr')[j].after(div)
+          this.createTitle[1] = titleList[1]
+        }
+        if (j == 14 && this.createTitle[2] !== titleList[2]) {
+          div.innerText = titleList[2]
+          tbody.getElementsByTagName('tr')[j].after(div)
+          this.createTitle[2] = titleList[2]
+        }
+        if (j == 23 && this.createTitle[3] !== titleList[3]) {
+          div.innerText = titleList[3]
+          tbody.getElementsByTagName('tr')[j].after(div)
+          this.createTitle[3] = titleList[3]
+        }
+        if (j == 24 && this.createTitle[4] !== titleList[4]) {
+          div.innerText = titleList[4]
+          tbody.getElementsByTagName('tr')[j].after(div)
+          this.createTitle[4] = titleList[4]
+        }
+      }
     }
   }
 }
