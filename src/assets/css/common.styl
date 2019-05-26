@@ -26,6 +26,8 @@ h1, h2, h3, h4, h5, h6, p, .el-main
   width 100%
   .el-container
     height 100%
+    width 80%
+    margin 0 auto
 .el-main
   .table-modal
     .content
@@ -73,3 +75,18 @@ thead
 .font-tip
   span:first-child
     padding-right 15px
+::-webkit-scrollbar
+  width 10px
+::-webkit-scrollbar-track
+-webkit-box-shadow inset006pxrgba(0,0,0,0.3)
+  border-radius 5px
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb
+  border-radius:10px
+  background:rgba(0,0,0,0.1)
+  -webkit-box-shadow:inset006pxrgba(0,0,0,0.5)
+::-webkit-scrollbar-thumb:window-inactive
+  background:rgba(0,0,0,0.1)
+  border-radius: 10px;
+  background: linear-gradient(left, #fff, #e4e4e4);
+  border: 1px solid #aaa;

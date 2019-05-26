@@ -119,22 +119,22 @@ export default {
         }
         if (j == 7 && this.createTitle[1] !== titleList[1]) {
           div.innerText = titleList[1]
-          tbody.getElementsByTagName('tr')[j].after(div)
+          tbody.getElementsByTagName('tr')[j].before(div)
           this.createTitle[1] = titleList[1]
         }
         if (j == 14 && this.createTitle[2] !== titleList[2]) {
           div.innerText = titleList[2]
-          tbody.getElementsByTagName('tr')[j].after(div)
+          tbody.getElementsByTagName('tr')[j].before(div)
           this.createTitle[2] = titleList[2]
         }
         if (j == 23 && this.createTitle[3] !== titleList[3]) {
           div.innerText = titleList[3]
-          tbody.getElementsByTagName('tr')[j].after(div)
+          tbody.getElementsByTagName('tr')[j].before(div)
           this.createTitle[3] = titleList[3]
         }
         if (j == 24 && this.createTitle[4] !== titleList[4]) {
           div.innerText = titleList[4]
-          tbody.getElementsByTagName('tr')[j].after(div)
+          tbody.getElementsByTagName('tr')[j].before(div)
           this.createTitle[4] = titleList[4]
         }
       }
