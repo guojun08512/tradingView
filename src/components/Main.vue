@@ -43,7 +43,7 @@
               <el-button
                 @click="handleHistory(scope.$index, scope.row)">下载历史数据</el-button>
             </template>
-          </el-table-column> 
+          </el-table-column>
       </el-table>
     </div>
   </div>
@@ -67,13 +67,6 @@ export default {
       createTitle: [] 
     }
   },
-  computed: {
-    isShowChromeTip() {
-      const USER_AGENT = navigator.userAgent.toLowerCase()
-      const isChrome = /.*(chrome)\/([\w.]+).*/
-      return !isChrome.test(USER_AGENT)
-    }
-  },  
   mounted () {
     this.$set(this.infos, 'e', 0)
     // this.onMessage()
@@ -85,6 +78,7 @@ export default {
     })
   },
   created() {
+    this.tips()
     this.socket.doOpen()
     this.socket.on('message', this.onMessage)
     this.$nextTick(() => {
@@ -94,7 +88,6 @@ export default {
   methods: {
     onMessage(data) {
       if (data.cmd === 'data') {
-        // console.log('data === ', JSON.parse(data.args))
         const msg = JSON.parse(data.args)
         this.infos = msg
         this.$nextTick(() => {
@@ -104,6 +97,13 @@ export default {
     },
     handleHistory(index, row) {
       console.log('ttt', index, row)
+    },
+    tips() {
+      const USER_AGENT = navigator.userAgent.toLowerCase()
+      const isIE = /.*(ie)\/([\w.]+).*/
+      if (isIE.test(USER_AGENT)) {
+        this.$message('您的浏览器版本太低，请更换使用浏览器，例如：chrome ...')
+      }
     },
     fun(){
       let tbody =  document.getElementsByTagName('tbody')[0]
