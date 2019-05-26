@@ -25,7 +25,7 @@
         </el-table-column>
         <el-table-column label="开盘">
           <template slot-scope="scope">
-            {{ scope.row.begin }}
+            {{ scope.row.open }}
           </template>
         </el-table-column>
         <el-table-column label="最高">
@@ -61,15 +61,23 @@ export default {
       ],
       count: 0,
       pageCount: 0,
-      curPage: 1,
+      curPage: 1, 
+
       titleList: ["中国股市", "中国期货","国际外汇","数字货币","国际股市"],
       createTitle: [] 
     }
   },
+  computed: {
+    isShowChromeTip() {
+      const USER_AGENT = navigator.userAgent.toLowerCase()
+      const isChrome = /.*(chrome)\/([\w.]+).*/
+      return !isChrome.test(USER_AGENT)
+    }
+  },  
   mounted () {
     this.$set(this.infos, 'e', 0)
     // this.onMessage()
-    this.$api.get('http://192.144.141.51:8002/v1/stock/alldata').then(res => {
+    this.$api.get('http://192.144.141.51:8000/v1/stock/alldata').then(res => {
       this.infos = res.data.data.data
       this.$nextTick(() => {
         this.fun()
@@ -104,7 +112,6 @@ export default {
       for (var j = 0; j < tbody.getElementsByTagName('tr').length; j++) {
         var div = document.createElement("div")
         div.className = 'title'
-        console.log( title[0], titleList[0])
         if (j == 0 && this.createTitle[0] !== titleList[0]) {
           div.innerText = titleList[0]
           tbody.getElementsByTagName('tr')[j].before(div)
