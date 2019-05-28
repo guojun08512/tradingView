@@ -2,7 +2,7 @@
   <div class="table-modal">
     <div class="content">
       <el-table :data='infos' border style="width: 100%">
-        <el-table-column width='90' label="序号" prop='id'></el-table-column>
+        <el-table-column width='80' label="序号" prop='id'></el-table-column>
         <el-table-column width='90' label="名称" prop='name'>
           <template slot-scope="scope">
             {{ scope.row.name }}
@@ -10,37 +10,37 @@
         </el-table-column>
         <el-table-column label="最新">
           <template slot-scope="scope">
-            {{ scope.row.lasted }}
+            {{ scope.row.lasted ? scope.row.lasted : '-'  }}
           </template>
         </el-table-column>
         <el-table-column label="成交量" width='160'>
           <template slot-scope="scope">
-            {{ scope.row.deal }}
+            {{ scope.row.deal ? scope.row.deal : '-' }}
           </template> 
         </el-table-column>
-        <el-table-column label="涨幅">
+        <el-table-column width='120' label="涨幅">
           <template slot-scope="scope">
-            {{ scope.row.amount }}
+            {{ scope.row.amount ? scope.row.amount : '-' }}
           </template>
         </el-table-column>
         <el-table-column label="开盘">
           <template slot-scope="scope">
-            {{ scope.row.open }}
+            {{ scope.row.open ? scope.row.open : '-' }}
           </template>
         </el-table-column>
         <el-table-column label="最高">
           <template slot-scope="scope">
-            {{ scope.row.highest }}
+            {{ scope.row.highest  ? scope.row.highest : '-' }}
           </template>
         </el-table-column>
         <el-table-column label="最低">
           <template slot-scope="scope">
-            {{ scope.row.lowest }}
+            {{ scope.row.lowest ? scope.row.lowest : '-' }}
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="">
             <template slot-scope="scope">
-              <el-button
+              <el-button type="text"
                 @click="handleHistory(scope.$index, scope.row)">下载历史数据</el-button>
             </template>
           </el-table-column>
@@ -70,12 +70,18 @@ export default {
   mounted () {
     this.$set(this.infos, 'e', 0)
     // this.onMessage()
-    this.$api.get('http://192.144.141.51:8000/v1/stock/alldata').then(res => {
+    this.$api.get('http://39.105.138.26:8000/v1/stock/alldata').then(res => {
       this.infos = res.data.data.data
       this.$nextTick(() => {
         this.fun()
       })
     })
+    // this.$api.get('http://127.0.0.1:8000/v1/stock/alldata').then(res => {
+    //   this.infos = res.data.data.data
+    //   this.$nextTick(() => {
+    //     this.fun()
+    //   })
+    // })
   },
   created() {
     this.tips()
@@ -117,22 +123,22 @@ export default {
           tbody.getElementsByTagName('tr')[j].before(div)
           this.createTitle[0] = titleList[0]
         }
-        if (j == 7 && this.createTitle[1] !== titleList[1]) {
+        if (j == 8 && this.createTitle[1] !== titleList[1]) {
           div.innerText = titleList[1]
           tbody.getElementsByTagName('tr')[j].before(div)
           this.createTitle[1] = titleList[1]
         }
-        if (j == 14 && this.createTitle[2] !== titleList[2]) {
+        if (j == 15 && this.createTitle[2] !== titleList[2]) {
           div.innerText = titleList[2]
           tbody.getElementsByTagName('tr')[j].before(div)
           this.createTitle[2] = titleList[2]
         }
-        if (j == 23 && this.createTitle[3] !== titleList[3]) {
+        if (j == 24 && this.createTitle[3] !== titleList[3]) {
           div.innerText = titleList[3]
           tbody.getElementsByTagName('tr')[j].before(div)
           this.createTitle[3] = titleList[3]
         }
-        if (j == 24 && this.createTitle[4] !== titleList[4]) {
+        if (j == 25 && this.createTitle[4] !== titleList[4]) {
           div.innerText = titleList[4]
           tbody.getElementsByTagName('tr')[j].before(div)
           this.createTitle[4] = titleList[4]

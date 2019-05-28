@@ -1,5 +1,5 @@
 class socket {
-  constructor(url = 'ws://192.144.141.51:8001/heartbeat', options) {
+  constructor(url = 'ws://39.105.138.26:8001/heartbeat', options) {
     this.heartBeatTimer = null
     this.options = options
     this.messageMap = {}
@@ -7,6 +7,14 @@ class socket {
     this.socket = null
     this.url = url
   }
+  // constructor(url = 'ws://127.0.0.1:8001/heartbeat', options) {
+  //   this.heartBeatTimer = null
+  //   this.options = options
+  //   this.messageMap = {}
+  //   this.connState = 0
+  //   this.socket = null
+  //   this.url = url
+  // }  
   doOpen() {
     if (this.connState) return
     this.connState = 1

@@ -6,7 +6,13 @@
           <Main></Main>
         </el-main>
         <el-footer>
-          <p>联系方式(qq:xxxx, 微信:xxxx) 版权备案</p>
+          <el-image
+            style="width: 150px; height: 150px"
+            :src="imgUrl1"></el-image>
+          <el-image
+            style="width: 150px; height: 150px"
+            :src="imgUrl2"></el-image>             
+          <p>联系方式 QQ: 3072737180</p>
         </el-footer>
       </el-container>
       <!-- <el-table :data='infos' border style="width: 100%">
@@ -26,6 +32,12 @@
 import Main from '../Main.vue'
 import socket from './socket/socket.js'
 export default {
+  data(){
+    return {
+      imgUrl1:require("../../assets/wx1.jpeg"),
+      imgUrl2:require("../../assets/wx2.jpeg")
+    }
+  },
   components: {
     Main
   }
