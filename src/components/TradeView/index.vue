@@ -1,7 +1,7 @@
 <template>
     <div class="table-modal">
       <el-container>
-        <el-header>猎数中国</el-header>
+        <el-header>猎数实时行情</el-header>
         <el-main>
           <Main></Main>
         </el-main>
